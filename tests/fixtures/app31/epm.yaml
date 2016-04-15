@@ -1,0 +1,40 @@
+jobs:
+
+- name: deployC
+  job:
+    deploy:
+      contract: array.sol
+      wait: true
+
+- name: getLengthFromPush
+  job:
+    query-contract:
+      destination: $deployC
+      data: intPushArray
+
+- name: assertIntPushLength
+  job:
+    assert:
+      key: $getLengthFromPush
+      relation: eq
+      val: 1
+
+- name: queryIntMemoryArray
+  job:
+    query-contract:
+      destination: $deployC
+      data: intMemoryArray
+
+- name: assertIntMemoryArray
+  job:
+    assert:
+      key: $queryIntMemoryArray
+      relation: eq
+      val: [1, 2, 3, 4]
+
+- name: setAndQueryIntStorage
+  job:
+    call:
+      destination: $deployC
+      data: intStorageArray 2
+      wait: true

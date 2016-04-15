@@ -1,0 +1,1 @@
+* test handling of arrays for multiple types
