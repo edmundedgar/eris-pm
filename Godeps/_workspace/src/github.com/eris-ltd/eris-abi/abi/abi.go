@@ -239,6 +239,7 @@ func (abi ABI) UnPack(name string, data []byte) ([]byte, error) {
 
 		_, ok := lengths[method.Outputs[i].Type.String()]
 		if !ok {
+			log.Info("string name: ", name)
 			return nil, fmt.Errorf("Unrecognized return type (%s)", method.Outputs[i].Type.String())
 		}
 
@@ -344,9 +345,6 @@ func unpackByteArray(value []byte, start int) (string, int) {
 
 	// first we get the bytes delimiter
 	next = start + lengths["retBlock"]
-	for i := 0; i < len(value); i++ {
-		log.WithField("RJ's Loop", value[i]).Debug("This is the loop")
-	}
 	v1 := value[start:next]
 	delim, _ := strconv.Atoi(common.StripZeros(common.BigD(v1).String()))
 	start = next

@@ -1,19 +1,14 @@
 contract c {
-	struct MyStruct {
-		uint myInt;
-		string myString;
-		bytes32 myBytes;
-	}
-	uint[] maIntz;
-	string[] maStringz;
+	uint[] maUIntz;
+	int[] maIntz;
 	bytes32[] maBytez;
-	MyStruct[] maStructz;
+	address[] maAddresses;
 	
 	function intStorageArray(uint b) constant returns (uint) {
-        maIntz.push(1);
-        maIntz.push(b);
-        maIntz.push(3);
-        return maIntz[1];
+        maUIntz.push(1);
+        maUIntz.push(b);
+        maUIntz.push(3);
+        return maUIntz[1];
 	}
 
 	function intMemoryArray() constant returns (uint8[4]) {
@@ -21,31 +16,11 @@ contract c {
 	}
 
 	function intPushArray() constant returns (uint){
-        return maIntz.push(1);
+        return maUIntz.push(1);
 	}
 
 	function intDeleteArrray() {
-        delete maIntz;
-	}
-
-	function stringStorageArray() constant returns (string) {
-        string[5] memory a = stringMemoryArray();
-        maStringz = a;
-        return maStringz[2];
-	}
-
-	function stringMemoryArray() internal returns (string[5]) {
-		return ["hello", "marmots", "how", "are", "you?"];
-	}
-
-	function stringPushArray() returns (uint) {
-        maStringz.push("foo");
-        maStringz.push("bar");
-        return maStringz.push("diddles");
-	}
-
-	function stringDeleteArrray() {
-        delete maStringz;
+        delete maUIntz;
 	}
 
 	function bytesStorageArray() constant returns (bytes32) {
@@ -73,22 +48,4 @@ contract c {
 	function bytesDeleteArrray() {
         delete maBytez;
 	}
-
-	function structStorageArray() constant returns (uint) {
-        MyStruct[3] memory a = structMemoryArray();
-        for (var i = 0; i < 3; i++)
-            maStructz.push(a[i]);
-        return maStructz[2].myInt;
-	}
-
-	function structMemoryArray() internal constant returns (MyStruct[3]){
-        return [MyStruct(1, "this", "is"), MyStruct(2, "a", "really"), MyStruct(3, "long", "test")];
-	}
-
-	function structPushArray() returns (uint) {
-        return maStructz.push(MyStruct(5, "bring", "it"));
-	}
-
-	function structDeleteArrray() {
-        delete maStructz;
-	}
+}

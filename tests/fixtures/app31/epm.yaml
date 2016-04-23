@@ -30,7 +30,7 @@ jobs:
     assert:
       key: $queryIntMemoryArray
       relation: eq
-      val: [1, 2, 3, 4]
+      val: 1, 2, 3, 4
 
 - name: setAndQueryIntStorage
   job:

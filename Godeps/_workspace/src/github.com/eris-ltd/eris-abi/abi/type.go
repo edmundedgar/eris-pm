@@ -2,6 +2,7 @@ package abi
 
 import (
 	"fmt"
+	log "github.com/eris-ltd/eris-pm/Godeps/_workspace/src/github.com/Sirupsen/logrus"
 	"reflect"
 	"regexp"
 	"strconv"
@@ -13,7 +14,7 @@ const (
 	BoolTy
 	SliceTy
 	AddressTy
-	RealTy
+	FixedTy
 )
 
 // Type is the reflection of the supported argument type
@@ -122,6 +123,7 @@ func NewType(t string) (typ Type, err error) {
 			return Type{}, fmt.Errorf("unsupported arg type: %s", t)
 		}
 	}
+	log.WithField("=>", t).Debug("String gathered from JSON")
 	typ.stringKind = t
 
 	return

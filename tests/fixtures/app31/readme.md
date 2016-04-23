@@ -1,1 +1,1 @@
-* test handling of arrays for multiple types
+* test handling of memory and storage arrays in static and dynamic forms for static types
