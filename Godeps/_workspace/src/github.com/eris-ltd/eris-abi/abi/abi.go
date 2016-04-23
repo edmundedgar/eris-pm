@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"math/big"
+	"reflect"
 	"regexp"
 	"strconv"
 	"strings"
@@ -234,16 +235,16 @@ func (abi ABI) UnPack(name string, data []byte) ([]byte, error) {
 	start := 0
 	var next int
 	end := len(data)
+	log.WithField("=>", data).Debug("Data being sent")
 
 	for i := range method.Outputs {
 
 		_, ok := lengths[method.Outputs[i].Type.String()]
 		if !ok {
-			log.Info("string name: ", name)
 			return nil, fmt.Errorf("Unrecognized return type (%s)", method.Outputs[i].Type.String())
 		}
 
-		next = start + lengths["retBlock"]
+		next = start + getLengthOfReturnType(method.Outputs[i].Type)
 		if next > end {
 			log.WithFields(log.Fields{
 				"name":   ret[i].Name,
@@ -265,6 +266,7 @@ func (abi ABI) UnPack(name string, data []byte) ([]byte, error) {
 			"name": ret[i].Name,
 			"type": ret[i].Type,
 			"val":  ret[i].Value,
+			"data": data[start:next],
 		}).Debug("ABI Unpack")
 
 		start = next
@@ -497,4 +499,17 @@ func getMajorType(typ string) string {
 		return "bool"
 	}
 	return "unknown"
+}
+
+func getLengthOfReturnType(typ Type) (next int) {
+	if typ.Kind == reflect.Slice {
+		log.Info("we get to the get length statement")
+		for i := 0; i < typ.Size; i++ {
+			next += lengths[typ.String()]
+		}
+		log.Info(next)
+	} else {
+		next = lengths[typ.String()]
+	}
+	return
 }

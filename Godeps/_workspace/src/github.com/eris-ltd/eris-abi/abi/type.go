@@ -2,10 +2,10 @@ package abi
 
 import (
 	"fmt"
-	log "github.com/eris-ltd/eris-pm/Godeps/_workspace/src/github.com/Sirupsen/logrus"
 	"reflect"
 	"regexp"
 	"strconv"
+	//log "github.com/eris-ltd/eris-abi/Godeps/_workspace/src/github.com/Sirupsen/logrus"
 )
 
 const (
@@ -44,13 +44,13 @@ func (t Type) MarshalJSON() ([]byte, error) {
 //      address    int256    uint256    fixed[2]
 func NewType(t string) (typ Type, err error) {
 	// parse eg. uint32 || uint32[] || uint32[20]
-	// 1. full string 2. type 3. (opt.) is slice 4. (opt.) size 5. (opt.) array
+	// 0. full string 1. type 2. (opt.) is slice 3. (opt.) size
 	freg, err := regexp.Compile("([a-zA-Z0-9]+)(\\[([0-9]*)?\\])?")
-	log.WithField("=>", freg).Debug("Regular Expression")
 	if err != nil {
 		return Type{}, err
 	}
 	res := freg.FindAllStringSubmatch(t, -1)[0]
+	//log.WithField("=>", res).Debug("Regular Expression Findings")
 	var (
 		isslice bool
 		size    int
@@ -98,12 +98,20 @@ func NewType(t string) (typ Type, err error) {
 		case "int":
 			typ.Kind = reflect.Ptr
 			typ.Type = big_t
-			typ.Size = 256
+			if vsize == 0 { 
+				typ.Size = 256
+			} else {
+				typ.Size = vsize
+			}
 			typ.T = IntTy
 		case "uint":
 			typ.Kind = reflect.Ptr
 			typ.Type = ubig_t
-			typ.Size = 256
+			if vsize == 0 { 
+				typ.Size = 256
+			} else {
+				typ.Size = vsize
+			}
 			typ.T = UintTy
 		case "bool":
 			typ.Kind = reflect.Bool
@@ -116,16 +124,16 @@ func NewType(t string) (typ Type, err error) {
 			typ.T = AddressTy
 		case "string", "bytes":
 			typ.Kind = reflect.String
-			typ.Size = -1
-			if vsize > 0 {
-				typ.Size = 32
+			if vsize == 0 {
+				typ.Size = -1
+			} else {
+				typ.Size = vsize
 			}
 		default:
 			return Type{}, fmt.Errorf("unsupported arg type: %s", t)
 		}
 	}
-	log.WithField("=>", t).Debug("String gathered from JSON")
-	typ.stringKind = t
+	typ.stringKind = res[1]
 
 	return
 }
