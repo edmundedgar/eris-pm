@@ -44,8 +44,9 @@ func (t Type) MarshalJSON() ([]byte, error) {
 //      address    int256    uint256    fixed[2]
 func NewType(t string) (typ Type, err error) {
 	// parse eg. uint32 || uint32[] || uint32[20]
-	// 1. full string 2. type 3. (opt.) is slice 4. (opt.) size
+	// 1. full string 2. type 3. (opt.) is slice 4. (opt.) size 5. (opt.) array
 	freg, err := regexp.Compile("([a-zA-Z0-9]+)(\\[([0-9]*)?\\])?")
+	log.WithField("=>", freg).Debug("Regular Expression")
 	if err != nil {
 		return Type{}, err
 	}
