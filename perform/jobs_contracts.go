@@ -66,7 +66,7 @@ func DeployJob(deploy *definitions.Deploy, do *definitions.Do) (result string, e
 
 	// compile
 	resp := compilers.Compile(p, deploy.Libraries)
-
+	log.WithField("=>", resp).Debug("compiler output")
 	if resp.Error != "" {
 		log.Errorln("Error compiling contracts")
 		return "", fmt.Errorf(resp.Error)
