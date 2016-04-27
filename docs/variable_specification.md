@@ -10,6 +10,7 @@ Variables come in the following types:
 * [set variables](#setVars)
 * [reserved variables](#reservedVars)
 * [tuple returns](#tupleReturns)
+* [array packing and returns](#arrays)
 
 ## <a name="jobResultVars"></a>Job Result Variable
 
@@ -66,3 +67,11 @@ for now the epm cannot handle dynamic types such as
 * `string` `bytes` `struct`
 
 Hold with us while the marmots get those in control :)
+
+## <a name="arrays"></a> Array Packing and Returns
+
+eris:pm can now handle packing and returning of arrays with some caveats. In order to pack an array value in, you must declare it inside square brackets, with each value separated by commas with `no spaces` inbetween. This is due to a splitting functionality which the marmots are hoping to refactor. For an example, see [app31](~/tests/fixtures/app31/epm.yaml). Until then, you can declare arrays for all static types such as: 
+
+* `address` `int` `uint` `bool` `bytes(1-32)`
+
+We currently do not handle packing of 2D arrays nor arrays of `string`, `bytes`, or `struct`. 
