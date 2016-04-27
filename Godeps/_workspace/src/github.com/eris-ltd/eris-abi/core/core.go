@@ -67,6 +67,7 @@ func PackArgsABI(abiSpec abi.ABI, data ...string) (string, error) {
 	a := []interface{}{}
 	for _, aa := range args {
 		bb, _ := hex.DecodeString(common.StripHex(common.CoerceHexAndPad(aa, true)))
+		log.Info("Can I hit bb?    ", bb)
 		a = append(a, bb)
 	}
 

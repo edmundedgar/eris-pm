@@ -53,11 +53,11 @@
 		},
 		{
 			"ImportPath": "github.com/eris-ltd/eris-abi/abi",
-			"Rev": "d11e870ad65a714a80b3c6c3d24ec2dfc67968e1"
+			"Rev": "2a4c502a9bbfaa3031a3e416662cc2248909b79d"
 		},
 		{
 			"ImportPath": "github.com/eris-ltd/eris-abi/core",
-			"Rev": "d11e870ad65a714a80b3c6c3d24ec2dfc67968e1"
+			"Rev": "2a4c502a9bbfaa3031a3e416662cc2248909b79d"
 		},
 		{
 			"ImportPath": "github.com/eris-ltd/eris-compilers",
@@ -89,11 +89,11 @@
 		},
 		{
 			"ImportPath": "github.com/eris-ltd/mint-client/mintx/core",
-			"Rev": "a44fb28cc58c9fcaeaaf74f0234b5896d8896d2f"
+			"Rev": "93360d4d3b2aa369cca664f4574100c1f85644d4"
 		},
 		{
 			"ImportPath": "github.com/eris-ltd/mint-client/utils",
-			"Rev": "a44fb28cc58c9fcaeaaf74f0234b5896d8896d2f"
+			"Rev": "93360d4d3b2aa369cca664f4574100c1f85644d4"
 		},
 		{
 			"ImportPath": "github.com/eris-ltd/tendermint/account",

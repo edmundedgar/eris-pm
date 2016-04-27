@@ -6,18 +6,61 @@ jobs:
       contract: array.sol
       wait: true
 
-- name: getLengthFromPush
+- name: callWithIntArray
   job:
-    query-contract:
+    call:
       destination: $deployC
-      data: intPushArray
+      data: intCallWithArray [1,2,3,4]
+      wait: true
 
-- name: assertIntPushLength
+- name: assertIntCall
   job:
     assert:
-      key: $getLengthFromPush
+      key: $callWithIntArray
       relation: eq
-      val: 1
+      val: 4
+
+- name: callWithByteArray
+  job:
+    call:
+      destination: $deployC
+      data: bytesCallWithArray [Hello,World,Of,Marmots]
+      wait: true
+
+- name: assertBytesCall
+  job:
+    assert:
+      key: $callWithByteArray
+      relation: eq
+      val: Marmots
+
+- name: callWithBoolArray
+  job:
+    call:
+      destination: $deployC
+      data: boolCallWithArray [true,false,true,false]
+      wait: true
+
+- name: assertBoolsCall
+  job:
+    assert:
+      key: $callWithBoolArray
+      relation: eq
+      val: false
+
+- name: callWithAddressArray
+  job:
+    call:
+      destination: $deployC
+      data: addressCallWithArray [B806DC304416CA32B5951E3391490813C9F6FF7A,B806DC304416CA32B5951E3391490813C9F6FF7C,B806DC304416CA32B5951E3391490813C9F6FF7D]
+      wait: true
+
+- name: assertAddressCall
+  job:
+    assert:
+      key: $callWithAddressArray
+      relation: eq
+      val: B806DC304416CA32B5951E3391490813C9F6FF7D
 
 - name: queryIntMemoryArray
   job:
@@ -30,11 +73,17 @@ jobs:
     assert:
       key: $queryIntMemoryArray
       relation: eq
-      val: 1, 2, 3, 4
+      val: "[1,2,3,4]"
 
-- name: setAndQueryIntStorage
+- name: queryBytesMemoryArray
   job:
-    call:
+    query-contract:
       destination: $deployC
-      data: intStorageArray 2
-      wait: true
+      data: bytesMemoryArray
+
+- name: assertBytesMemoryArray
+  job:
+    assert:
+      key: $queryBytesMemoryArray
+      relation: eq
+      val: "[hello,marmots,how,are,you]"

@@ -66,7 +66,7 @@ func DeployJob(deploy *definitions.Deploy, do *definitions.Do) (result string, e
 
 	// compile
 	resp := compilers.Compile(p, deploy.Libraries)
-	log.WithField("=>", resp).Debug("compiler output")
+	//log.WithField("=>", resp).Debug("compiler output")
 	if resp.Error != "" {
 		log.Errorln("Error compiling contracts")
 		return "", fmt.Errorf(resp.Error)
@@ -247,6 +247,7 @@ func CallJob(call *definitions.Call, do *definitions.Do) (string, []*definitions
 
 	tx, err := core.Call(do.Chain, do.Signer, do.PublicKey, call.Source, call.Destination, call.Amount, call.Nonce, call.Gas, call.Fee, call.Data)
 	if err != nil {
+		log.Info("We hit the error for the transaction core call")
 		return "", make([]*definitions.Variable, 0), err
 	}
 
@@ -283,7 +284,6 @@ func CallJob(call *definitions.Call, do *definitions.Do) (string, []*definitions
 		} else {
 			log.Debug("No return.")
 		}
-
 	} else {
 		log.Debug("No return from contract.")
 	}

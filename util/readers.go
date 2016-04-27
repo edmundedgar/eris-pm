@@ -83,6 +83,8 @@ func ReadAndDecodeContractReturn(abiLocation, dataRaw, resultRaw string, do *def
 	log.WithField("=>", string(abiSpecBytes)).Debug("ABI Specification (Decode)")
 
 	// Process and Pack the Call
+	log.WithField("=>", dataRaw).Debug("Data Raw: ")
+	log.WithField("=>", resultRaw).Debug("Raw Result: ")
 	funcName, _ := abiPreProcess(dataRaw, do)
 
 	// Unpack the result
@@ -120,6 +122,7 @@ func abiPreProcess(dataRaw string, do *definitions.Do) (string, []string) {
 	var dataNew []string
 
 	data := strings.Split(dataRaw, " ")
+	log.Info("Split Data", data)
 	for _, d := range data {
 		d, _ = PreProcess(d, do)
 		dataNew = append(dataNew, d)
@@ -127,6 +130,8 @@ func abiPreProcess(dataRaw string, do *definitions.Do) (string, []string) {
 
 	funcName := dataNew[0]
 	args := dataNew[1:]
+
+	log.Info("Length of Args: ", len(args))
 
 	return funcName, args
 }

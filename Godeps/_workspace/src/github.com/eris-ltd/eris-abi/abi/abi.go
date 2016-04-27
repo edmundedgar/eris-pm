@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io"
 	"math/big"
-	"reflect"
 	"regexp"
 	"strconv"
 	"strings"
@@ -115,27 +114,61 @@ func (abi ABI) Pack(name string, data []string) ([]byte, error) {
 
 	var packer []*PackType
 	var arguments []byte
+	freg, err := regexp.Compile("([a-zA-Z0-9]+)(\\[([0-9]*)?\\])?")
+	if err != nil {
+		return nil, err
+	}
 	for i, a := range data {
 		input := method.Inputs[i]
+		isArray, _ := regexp.MatchString(`\[([0-9a-zA-Z\,]*)\]`, a)
 		thisPacked := &PackType{}
 
 		thisPacked.Name = input.Name
 		thisPacked.Type = input.Type.String()
 		thisPacked.Raw = a
 		thisPacked.ArgNumber = i
+		if isArray {
+			a := strings.Trim(a, "[]")
+			A := strings.Split(a, ",")
 
-		log.WithFields(log.Fields{
-			"name":   thisPacked.Name,
-			"type":   thisPacked.Type,
-			"val":    thisPacked.Raw,
-			"argNum": thisPacked.ArgNumber,
-		}).Debug("ABI Pack")
-		err := PackProcessType(thisPacked)
-		if err != nil {
-			return nil, err
+			res := freg.FindAllStringSubmatch(input.Type.String(), -1)[0]
+
+			if res[3] != "" {
+				thisPacked.Dynamic = false
+			} else {
+				thisPacked.Dynamic = true
+			}
+			log.WithField("=>", len(A)).Debug("Length of Array")
+			for _, d := range A {
+				log.WithField("=>", d).Debug("Array element")
+				tempPacked := &PackType{}
+
+				tempPacked.Raw = d
+				tempPacked.Type = thisPacked.Type
+				err := PackProcessType(tempPacked)
+				if err != nil {
+					return nil, err
+				}
+				thisPacked.Data = append(thisPacked.Data, tempPacked.Data...)
+				log.Info("We get past the append")
+			}
+			log.Info("We get past the loop")
+		} else {
+
+			log.WithFields(log.Fields{
+				"name":   thisPacked.Name,
+				"type":   thisPacked.Type,
+				"val":    thisPacked.Raw,
+				"argNum": thisPacked.ArgNumber,
+			}).Debug("ABI Pack")
+			err := PackProcessType(thisPacked)
+			if err != nil {
+				return nil, err
+			}
 		}
 
 		packer = append(packer, thisPacked)
+
 	}
 
 	arguments = ProcessPackedTypes(packer)
@@ -178,6 +211,7 @@ func ProcessPackedTypes(packer []*PackType) []byte {
 // https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI#formal-specification-of-the-encoding
 func PackProcessType(thisPacked *PackType) error {
 	t := getMajorType(thisPacked.Type)
+
 	switch t {
 	case "byte":
 		thisPacked.Dynamic = false
@@ -235,16 +269,16 @@ func (abi ABI) UnPack(name string, data []byte) ([]byte, error) {
 	start := 0
 	var next int
 	end := len(data)
-	log.WithField("=>", data).Debug("Data being sent")
 
 	for i := range method.Outputs {
 
-		_, ok := lengths[method.Outputs[i].Type.String()]
+		arrayLength := method.Outputs[i].Type.Size
+		_, ok := lengths[method.Outputs[i].Type.BaseType()]
 		if !ok {
-			return nil, fmt.Errorf("Unrecognized return type (%s)", method.Outputs[i].Type.String())
+			return nil, fmt.Errorf("Unrecognized return type (%s)", method.Outputs[i].Type.BaseType())
 		}
-
-		next = start + getLengthOfReturnType(method.Outputs[i].Type)
+		log.WithField("=>", arrayLength).Debug("Array Length")
+		next = start + lengths["retBlock"]
 		if next > end {
 			log.WithFields(log.Fields{
 				"name":   ret[i].Name,
@@ -261,15 +295,25 @@ func (abi ABI) UnPack(name string, data []byte) ([]byte, error) {
 
 		ret[i].Name = method.Outputs[i].Name
 		ret[i].Type = method.Outputs[i].Type.String()
-		ret[i].Value, next = UnpackProcessType(ret[i].Type, data[start:next], start)
+		var tempStringArray []string
+		for j := 0; j < arrayLength; j++ {
+			var tempValue string
+			next = start + lengths["retBlock"]
+			tempValue, next = UnpackProcessType(method.Outputs[i].Type.BaseType(), data[start:next], start)
+			start = next
+			tempStringArray = append(tempStringArray, tempValue)
+		}
+		if len(tempStringArray) > 1 {
+			ret[i].Value = "[" + strings.Join(tempStringArray, ",") + "]"
+		} else {
+			ret[i].Value = tempStringArray[0]
+		}
 		log.WithFields(log.Fields{
 			"name": ret[i].Name,
 			"type": ret[i].Type,
 			"val":  ret[i].Value,
-			"data": data[start:next],
 		}).Debug("ABI Unpack")
 
-		start = next
 	}
 
 	if start != end {
@@ -300,6 +344,7 @@ func (abi ABI) UnPack(name string, data []byte) ([]byte, error) {
 //Conversion to string based on "Type"
 func UnpackProcessType(typ string, value []byte, start int) (string, int) {
 	t := getMajorType(typ)
+	log.Info("Hit UnpackProcessType")
 	switch t {
 	case "byte":
 		return string(common.UnRightPadBytes(value)), (start + lengths["retBlock"])
@@ -499,17 +544,4 @@ func getMajorType(typ string) string {
 		return "bool"
 	}
 	return "unknown"
-}
-
-func getLengthOfReturnType(typ Type) (next int) {
-	if typ.Kind == reflect.Slice {
-		log.Info("we get to the get length statement")
-		for i := 0; i < typ.Size; i++ {
-			next += lengths[typ.String()]
-		}
-		log.Info(next)
-	} else {
-		next = lengths[typ.String()]
-	}
-	return
 }
