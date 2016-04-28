@@ -61,7 +61,7 @@
 		},
 		{
 			"ImportPath": "github.com/eris-ltd/eris-compilers",
-			"Rev": "03d69c340047dc8ccb549e789cfa296aece4d39d"
+			"Rev": "d0fcc8c55fd599aead32356eb7b6cb6e9426506d"
 		},
 		{
 			"ImportPath": "github.com/eris-ltd/eris-keys/crypto",

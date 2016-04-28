@@ -24,6 +24,7 @@ func resolveCode(filename string, literal bool) (code []byte, err error) {
 
 // send compile request to server or compile directly
 func (c *CompileClient) compileRequest(req *Request) (resp *Response, err error) {
+	log.Info("Made it to compile request")
 	if c.config.Net {
 		log.WithField("url", c.config.URL).Debug("Compiling code remotely")
 		resp, err = requestResponse(req)
@@ -66,9 +67,10 @@ func (c *CompileClient) Compile(dir string, code []byte, libraries string) (*Res
 	resp, err := c.compileRequest(req)
 
 	if err != nil {
+		log.Info("Error in compile request")
 		return nil, err
 	}
-
+	log.Info("RESPONSE ERROR: ", resp.Error)
 	if resp.Error == "" {
 		for _, r := range resp.Objects {
 			// fill in cached values, cache new values

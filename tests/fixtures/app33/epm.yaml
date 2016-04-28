@@ -1,0 +1,17 @@
+jobs:
+
+  - name: Set
+    job:
+      deploy:
+        contract: library.sol
+        instance: Set
+        wait: true
+        
+ # - name: C
+ #   job:
+ #     deploy: 
+ #       contract: library.sol
+ #       instance: C
+ #       wait: true
+
+
