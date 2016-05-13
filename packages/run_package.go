@@ -10,7 +10,7 @@ func RunPackage(do *definitions.Do) error {
 
 	// Load the package if it doesn't exist
 	if do.Package == nil {
-		do.Package, err = LoadPackage(do.YAMLPath)
+		do.Package, err = LoadPackage(do.JobFilePath)
 		if err != nil {
 			return err
 		}

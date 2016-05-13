@@ -5,7 +5,7 @@ type Do struct {
 	Verbose       bool     `mapstructure:"," json:"," yaml:"," toml:","`
 	SummaryTable  bool     `mapstructure:"," json:"," yaml:"," toml:","`
 	Overwrite     bool     `mapstructure:"," json:"," yaml:"," toml:","`
-	YAMLPath      string   `mapstructure:"," json:"," yaml:"," toml:","`
+	JobFilePath   string   `mapstructure:"," json:"," yaml:"," toml:","`
 	ContractsPath string   `mapstructure:"," json:"," yaml:"," toml:","`
 	ABIPath       string   `mapstructure:"," json:"," yaml:"," toml:","`
 	Chain         string   `mapstructure:"," json:"," yaml:"," toml:","`
