@@ -206,6 +206,7 @@ func CallJob(call *definitions.Call, do *definitions.Do) (string, []*definitions
 	// Preprocess variables
 	call.Source, _ = util.PreProcess(call.Source, do)
 	call.Destination, _ = util.PreProcess(call.Destination, do)
+	call.Function, _ = util.PreProcess(call.Function, do)
 	call.Amount, _ = util.PreProcess(call.Amount, do)
 	call.Nonce, _ = util.PreProcess(call.Nonce, do)
 	call.Fee, _ = util.PreProcess(call.Fee, do)
@@ -242,10 +243,14 @@ func CallJob(call *definitions.Call, do *definitions.Do) (string, []*definitions
 
 	log.WithFields(log.Fields{
 		"destination": call.Destination,
+		"function":    call.Function,
 		"data":        call.Data,
 	}).Info("Calling")
-
-	tx, err := core.Call(do.Chain, do.Signer, do.PublicKey, call.Source, call.Destination, call.Amount, call.Nonce, call.Gas, call.Fee, call.Data)
+	
+	callData := make([]string, call.Function)
+	callData = append(callData, call.Data)
+	
+	tx, err := core.Call(do.Chain, do.Signer, do.PublicKey, call.Source, call.Destination, call.Amount, call.Nonce, call.Gas, call.Fee, callData)
 	if err != nil {
 		return "", make([]*definitions.Variable, 0), err
 	}
@@ -269,9 +274,9 @@ func CallJob(call *definitions.Call, do *definitions.Do) (string, []*definitions
 	if result != "" {
 		log.WithField("=>", result).Debug("Decoding Raw Result")
 		if call.ABI == "" {
-			call.Variables, err = util.ReadAndDecodeContractReturn(call.Destination, originalData, result, do)
+			call.Variables, err = util.ReadAndDecodeContractReturn(call.Destination, callData, result, do)
 		} else {
-			call.Variables, err = util.ReadAndDecodeContractReturn(call.ABI, originalData, result, do)
+			call.Variables, err = util.ReadAndDecodeContractReturn(call.ABI, callData, result, do)
 		}
 		if err != nil {
 			return "", make([]*definitions.Variable, 0), err

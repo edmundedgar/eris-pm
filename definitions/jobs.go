@@ -169,9 +169,11 @@ type Call struct {
 	Source string `mapstructure:"source" json:"source" yaml:"source" toml:"source"`
 	// (Required) address of the contract which should be called
 	Destination string `mapstructure:"destination" json:"destination" yaml:"destination" toml:"destination"`
+	// (Recommended/Optional) function inside the contract to be called
+	Function string `mapstructure:"function" json:"function" yaml:"function" toml:"function"`
 	// (Required) data which should be called. will use the eris-abi tooling under the hood to formalize the
 	// transaction
-	Data string `mapstructure:"data" json:"data" yaml:"data" toml:"data"`
+	Data []string `mapstructure:"data" json:"data" yaml:"data" toml:"data"`
 	// (Optional) amount of tokens to send to the contract
 	Amount string `mapstructure:"amount" json:"amount" yaml:"amount" toml:"amount"`
 	// (Optional) validators' fee

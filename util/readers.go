@@ -54,7 +54,7 @@ func ReadTxSignAndBroadcast(result *core.TxResult, err error) error {
 	return nil
 }
 
-func ReadAbiFormulateCall(abiLocation, dataRaw string, do *definitions.Do) (string, error) {
+func ReadAbiFormulateCall(abiLocation string, dataRaw []string, do *definitions.Do) (string, error) {
 	abiSpecBytes, err := readAbi(do.ABIPath, abiLocation)
 	if err != nil {
 		return "", err
@@ -62,31 +62,26 @@ func ReadAbiFormulateCall(abiLocation, dataRaw string, do *definitions.Do) (stri
 	log.WithField("=>", string(abiSpecBytes)).Debug("ABI Specification (Formulate)")
 
 	// Process and Pack the Call
-	funcName, args := abiPreProcess(dataRaw, do)
+	args := abiPreProcess(dataRaw, do)
 
 	log.WithFields(log.Fields{
-		"function name": funcName,
 		"arguments":     args,
 	}).Debug("Packing Call via ABI")
 	var totalArgs []string
-	totalArgs = append(totalArgs, funcName)
 	totalArgs = append(totalArgs, args...)
 
 	return ebi.Packer(abiSpecBytes, totalArgs...)
 }
 
-func ReadAndDecodeContractReturn(abiLocation, dataRaw, resultRaw string, do *definitions.Do) ([]*definitions.Variable, error) {
+func ReadAndDecodeContractReturn(abiLocation string, dataRaw []string, resultRaw string, do *definitions.Do) ([]*definitions.Variable, error) {
 	abiSpecBytes, err := readAbi(do.ABIPath, abiLocation)
 	if err != nil {
 		return nil, err
 	}
 	log.WithField("=>", string(abiSpecBytes)).Debug("ABI Specification (Decode)")
 
-	// Process and Pack the Call
-	funcName, _ := abiPreProcess(dataRaw, do)
-
 	// Unpack the result
-	res, err := ebi.UnPacker(abiSpecBytes, funcName, resultRaw, false)
+	res, err := ebi.UnPacker(abiSpecBytes, dataRaw[0], resultRaw, false)
 	if err != nil {
 		return nil, err
 	}
@@ -116,22 +111,29 @@ func ReadAndDecodeContractReturn(abiLocation, dataRaw, resultRaw string, do *def
 	return result, nil
 }
 
-func abiPreProcess(dataRaw string, do *definitions.Do) (string, []string) {
-	var dataNew []string
+func abiPreProcess(dataRaw []string, do *definitions.Do) ([]string) {
+	var args []string
 
-	data := strings.Split(dataRaw, " ")
-	log.WithField("=>", data).Debug("Data after splitting")
-	for _, d := range data {
-		d, _ = PreProcess(d, do)
-		dataNew = append(dataNew, d)
+	for _, d := range dataRaw {
+		//check if array, else treat as normal variable
+		//todo: add case for structs
+		if strings.Contains(d, "[") && strings.Contains(d, "]") {
+			d = strings.TrimLeft(d, "[")
+			d = strings.TrimRight(d, "]")
+			array := strings.Split(d, ",")
+			for _, index := range array {
+				index, _ = PreProcess(index, do)
+				args = append(args, index)
+			}
+		} else {
+			d, _ = PreProcess(d, do)
+			args = append(args, d)
+		}
 	}
-
-	funcName := dataNew[0]
-	args := dataNew[1:]
 
 	log.WithField("=>", len(args)).Debug("Length of Args")
 
-	return funcName, args
+	return args
 }
 
 func readAbi(root, contract string) ([]byte, error) {

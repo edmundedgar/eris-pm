@@ -30,10 +30,11 @@ func QueryContractJob(query *definitions.QueryContract, do *definitions.Do) (str
 
 	// Get the packed data from the ABI functions
 	var data string
+	var functionName = make([]string, query.Data)
 	if query.ABI == "" {
-		data, err = util.ReadAbiFormulateCall(query.Destination, query.Data, do)
+		data, err = util.ReadAbiFormulateCall(query.Destination, functionName, do)
 	} else {
-		data, err = util.ReadAbiFormulateCall(query.ABI, query.Data, do)
+		data, err = util.ReadAbiFormulateCall(query.ABI, functionName, do)
 	}
 	if err != nil {
 		var str, err = util.ABIErrorHandler(do, err, nil, query)
