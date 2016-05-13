@@ -1,0 +1,18 @@
+jobs:
+
+- name: deployC
+  job:
+    deploy:
+      contract: contract.sol
+      wait: true
+
+- name: callJobWithFunction
+  job:
+    call:
+      destination: $deployC
+      function: deployCFunction
+      data:
+         - 1
+         - aString
+         - [1, 2, 3, 4]
+      wait: true
