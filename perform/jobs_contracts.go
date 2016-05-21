@@ -11,11 +11,11 @@ import (
 	"github.com/eris-ltd/eris-pm/definitions"
 	"github.com/eris-ltd/eris-pm/util"
 
-	log "github.com/eris-ltd/eris-pm/Godeps/_workspace/src/github.com/Sirupsen/logrus"
-	"github.com/eris-ltd/eris-pm/Godeps/_workspace/src/github.com/eris-ltd/common/go/common"
-	compilers "github.com/eris-ltd/eris-pm/Godeps/_workspace/src/github.com/eris-ltd/eris-compilers"
-	"github.com/eris-ltd/eris-pm/Godeps/_workspace/src/github.com/eris-ltd/mint-client/mintx/core"
-	"github.com/eris-ltd/eris-pm/Godeps/_workspace/src/github.com/eris-ltd/tendermint/types"
+	log "github.com/Sirupsen/logrus"
+	"github.com/eris-ltd/common/go/common"
+	compilers "github.com/eris-ltd/eris-compilers"
+	"github.com/eris-ltd/mint-client/mintx/core"
+	"github.com/eris-ltd/tendermint/types"
 )
 
 func PackageDeployJob(pkgDeploy *definitions.PackageDeploy, do *definitions.Do) (string, error) {
@@ -138,9 +138,8 @@ func deployContract(deploy *definitions.Deploy, do *definitions.Do, r compilers.
 	// additional data may be sent along with the contract
 	// these are naively added to the end of the contract code using standard
 	// mint packing
-	if deploy.Data != "" {
-		splitout := strings.Split(deploy.Data, " ")
-		for _, s := range splitout {
+	if len(deploy.Data) != 0 {
+		for _, s := range deploy.Data {
 			s, _ = util.PreProcess(s, do)
 			addOns := common.LeftPadString(common.StripHex(common.Coerce2Hex(s)), 64)
 			log.WithField("=>", contractCode).Debug("Contract Code")
@@ -204,6 +203,7 @@ func deployContract(deploy *definitions.Deploy, do *definitions.Do, r compilers.
 
 func CallJob(call *definitions.Call, do *definitions.Do) (string, []*definitions.Variable, error) {
 	// Preprocess variables
+	// todo: give this its own function...this is messy
 	call.Source, _ = util.PreProcess(call.Source, do)
 	call.Destination, _ = util.PreProcess(call.Destination, do)
 	call.Amount, _ = util.PreProcess(call.Amount, do)
@@ -219,20 +219,34 @@ func CallJob(call *definitions.Call, do *definitions.Do) (string, []*definitions
 	call.Gas = useDefault(call.Gas, do.DefaultGas)
 
 	var err error
-	// save for later
-	originalData := call.Data
 
-	// formulte call
+	//todo: is there possibly a way to try/catch all of these errors?
+	// gather if abi is currently residing or not
+	var abiSpecBytes []byte
 	if call.ABI == "" {
-		call.Data, err = util.ReadAbiFormulateCall(call.Destination, call.Data, do)
+		abiSpecBytes, err = util.ReadAbi(do.ABIPath, call.Destination)
 	} else {
-		call.Data, err = util.ReadAbiFormulateCall(call.ABI, call.Data, do)
+		abiSpecBytes, err = util.ReadAbi(do.ABIPath, call.ABI)
 	}
+	
 	if err != nil {
 		var str, err = util.ABIErrorHandler(do, err, call, nil)
 		return str, make([]*definitions.Variable, 0), err
+	} else {
+		log.WithField("=>", string(abiSpecBytes)).Debug("ABI Specification (Formulate)")
 	}
 
+	abi, err := util.MakeAbi(string(abiSpecBytes))
+
+	if err != nil {
+		str, err := util.ABIErrorHandler(do, err, call, nil)
+		return str, make([]*definitions.Variable, 0), err
+	}
+
+	Data, err := abi.Pack(call.Function, call.Data)
+	if err != nil {
+		return "", make([]*definitions.Variable, 0), err
+	}
 	// Don't use pubKey if account override
 	var oldKey string
 	if call.Source != do.Package.Account {
@@ -242,10 +256,12 @@ func CallJob(call *definitions.Call, do *definitions.Do) (string, []*definitions
 
 	log.WithFields(log.Fields{
 		"destination": call.Destination,
-		"data":        call.Data,
+		"data":        Data,
 	}).Info("Calling")
 
-	tx, err := core.Call(do.Chain, do.Signer, do.PublicKey, call.Source, call.Destination, call.Amount, call.Nonce, call.Gas, call.Fee, call.Data)
+	FuncPlusArgs := call.Function + string(Data)
+
+	tx, err := core.Call(do.Chain, do.Signer, do.PublicKey, call.Source, call.Destination, call.Amount, call.Nonce, call.Gas, call.Fee, FuncPlusArgs)
 	if err != nil {
 		return "", make([]*definitions.Variable, 0), err
 	}
@@ -269,9 +285,9 @@ func CallJob(call *definitions.Call, do *definitions.Do) (string, []*definitions
 	if result != "" {
 		log.WithField("=>", result).Debug("Decoding Raw Result")
 		if call.ABI == "" {
-			call.Variables, err = util.ReadAndDecodeContractReturn(call.Destination, originalData, result, do)
+			call.Variables, err = util.ReadAndDecodeContractReturn(call.Destination, call.Function, result, do)
 		} else {
-			call.Variables, err = util.ReadAndDecodeContractReturn(call.ABI, originalData, result, do)
+			call.Variables, err = util.ReadAndDecodeContractReturn(call.ABI, call.Function, result, do)
 		}
 		if err != nil {
 			return "", make([]*definitions.Variable, 0), err

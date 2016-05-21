@@ -8,8 +8,8 @@ import (
 	"github.com/eris-ltd/eris-pm/definitions"
 	"github.com/eris-ltd/eris-pm/util"
 
-	log "github.com/eris-ltd/eris-pm/Godeps/_workspace/src/github.com/Sirupsen/logrus"
-	cclient "github.com/eris-ltd/eris-pm/Godeps/_workspace/src/github.com/eris-ltd/tendermint/rpc/core_client"
+	log "github.com/Sirupsen/logrus"
+	cclient "github.com/eris-ltd/tendermint/rpc/core_client"
 )
 
 func QueryContractJob(query *definitions.QueryContract, do *definitions.Do) (string, []*definitions.Variable, error) {
@@ -29,24 +29,20 @@ func QueryContractJob(query *definitions.QueryContract, do *definitions.Do) (str
 	}
 
 	// Get the packed data from the ABI functions
-	var data string
+	var data []byte
 	if query.ABI == "" {
-		data, err = util.ReadAbiFormulateCall(query.Destination, query.Data, do)
+		data, err = util.ReadAbi(do.ABIPath, query.Destination)
 	} else {
-		data, err = util.ReadAbiFormulateCall(query.ABI, query.Data, do)
+		data, err = util.ReadAbi(do.ABIPath, query.ABI)
 	}
 	if err != nil {
 		var str, err = util.ABIErrorHandler(do, err, nil, query)
 		return str, make([]*definitions.Variable, 0), err
 	}
-	dataBytes, err := hex.DecodeString(data)
-	if err != nil {
-		return "", make([]*definitions.Variable, 0), err
-	}
 
 	// Call the client
 	client := cclient.NewClient(do.Chain, "HTTP")
-	retrn, err := client.Call(fromAddrBytes, toAddrBytes, dataBytes)
+	retrn, err := client.Call(fromAddrBytes, toAddrBytes, data)
 	if err != nil {
 		return "", make([]*definitions.Variable, 0), err
 	}
