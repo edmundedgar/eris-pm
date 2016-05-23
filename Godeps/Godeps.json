@@ -1,7 +1,7 @@
 {
 	"ImportPath": "github.com/eris-ltd/eris-pm",
 	"GoVersion": "go1.5",
-	"GodepVersion": "v62",
+	"GodepVersion": "v70",
 	"Packages": [
 		"./..."
 	],
@@ -65,27 +65,27 @@
 		},
 		{
 			"ImportPath": "github.com/eris-ltd/eris-keys/crypto",
-			"Rev": "6b4aa3de4b73222d2b06c3c8c258ddf1a74faaae"
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
 		},
 		{
 			"ImportPath": "github.com/eris-ltd/eris-keys/crypto/ed25519",
-			"Rev": "6b4aa3de4b73222d2b06c3c8c258ddf1a74faaae"
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
 		},
 		{
 			"ImportPath": "github.com/eris-ltd/eris-keys/crypto/randentropy",
-			"Rev": "6b4aa3de4b73222d2b06c3c8c258ddf1a74faaae"
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
 		},
 		{
 			"ImportPath": "github.com/eris-ltd/eris-keys/crypto/secp256k1",
-			"Rev": "6b4aa3de4b73222d2b06c3c8c258ddf1a74faaae"
+			"Rev": "4a6edda802da557a9f73f384255dc9ebc2bd9ead"
 		},
 		{
 			"ImportPath": "github.com/eris-ltd/eris-keys/crypto/sha3",
-			"Rev": "6b4aa3de4b73222d2b06c3c8c258ddf1a74faaae"
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
 		},
 		{
 			"ImportPath": "github.com/eris-ltd/eris-keys/eris-keys",
-			"Rev": "6b4aa3de4b73222d2b06c3c8c258ddf1a74faaae"
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
 		},
 		{
 			"ImportPath": "github.com/eris-ltd/mint-client/mintx/core",
@@ -492,6 +492,226 @@
 		{
 			"ImportPath": "gopkg.in/yaml.v2",
 			"Rev": "5d6f7e02b7cdad63b06ab3877915532cd30073b4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/eris-ltd/tendermint/account",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/wayn3h0/go-uuid",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/golang.org/x/crypto/ripemd160",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/golang.org/x/crypto/scrypt",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/eris-ltd/tendermint/common",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/eris-ltd/tendermint/merkle",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/eris-ltd/tendermint/permission/types",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/eris-ltd/tendermint/wire",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/tendermint/ed25519",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/tendermint/ed25519/extra25519",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/wayn3h0/go-uuid/internal/dcesecurity",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/wayn3h0/go-uuid/internal/layout",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/wayn3h0/go-uuid/internal/namebased",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/wayn3h0/go-uuid/internal/namebased/md5",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/wayn3h0/go-uuid/internal/namebased/sha1",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/wayn3h0/go-uuid/internal/random",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/wayn3h0/go-uuid/internal/timebased",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/wayn3h0/go-uuid/internal/version",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/golang.org/x/crypto/pbkdf2",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/agl/ed25519/edwards25519",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/tendermint/log15",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/eris-ltd/tendermint/db",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/eris-ltd/tendermint/logger",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/inconshreveable/log15/stack",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/inconshreveable/log15/term",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/mattn/go-colorable",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/eris-ltd/tendermint/config",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/syndtr/goleveldb/leveldb",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/syndtr/goleveldb/leveldb/errors",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/syndtr/goleveldb/leveldb/opt",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/mattn/go-isatty",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/naoina/toml",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/syndtr/goleveldb/leveldb/cache",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/syndtr/goleveldb/leveldb/comparer",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/syndtr/goleveldb/leveldb/filter",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/syndtr/goleveldb/leveldb/iterator",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/syndtr/goleveldb/leveldb/journal",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/syndtr/goleveldb/leveldb/memdb",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/syndtr/goleveldb/leveldb/storage",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/syndtr/goleveldb/leveldb/table",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/syndtr/goleveldb/leveldb/util",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/naoina/go-stringutil",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/naoina/toml/ast",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/syndtr/gosnappy/snappy",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/eris-ltd/common/go/common",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/eris-ltd/common/go/log",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/howeyc/gopass",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/rs/cors",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/spf13/cobra",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/mitchellh/go-homedir",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/Sirupsen/logrus",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/golang.org/x/crypto/ssh/terminal",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/inconshreveable/mousetrap",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/github.com/spf13/pflag",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
+		},
+		{
+			"ImportPath": "github.com/eris-ltd/eris-keys/Godeps/_workspace/src/golang.org/x/sys/unix",
+			"Rev": "823f7fe2964bd32ac7d17cd6e71f820a920b5ff4"
 		}
 	]
 }
