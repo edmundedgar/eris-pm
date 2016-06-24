@@ -137,12 +137,12 @@ run_test(){
     echo
     cat readme.md
     echo
-    eris pkgs do --chain "$chain_name" --address "$key1_addr" --set "addr1=$key1_addr" --set "addr2=$key2_addr" --set "addr2_pub=$key2_pub" #--debug
+    eris pkgs do --chain "$chain_name" --address "$key1_addr" --set "addr1=$key1_addr" --set "addr2=$key2_addr" --set "addr2_pub=$key2_pub" -l "http://localhost:9098/" --debug
   else
     echo
     cat readme.md
     echo
-    eris pkgs do --chain "$chain_name" --address "$key1_addr" --set "addr1=$key1_addr" --set "addr2=$key2_addr" --set "addr2_pub=$key2_pub" --rm
+    eris pkgs do --chain "$chain_name" --address "$key1_addr" --set "addr1=$key1_addr" --set "addr2=$key2_addr" --set "addr2_pub=$key2_pub" -l "http://localhost:9098/" --rm
   fi
   test_exit=$?
 

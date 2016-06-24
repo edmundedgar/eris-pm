@@ -1,0 +1,3 @@
+package: github.com/eris-ltd/eris-pm
+import:
+- package: github.com/eris-ltd/eris-compilers
